@@ -1,0 +1,54 @@
+<robot name="simple_box">
+  <link name="my_camera">
+    <pose>0 1 0 0 0 0</pose>
+    
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0.05" />
+      <mass value="1.0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="100.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.1 0.1" />
+      </geometry>
+      <material name="blue" />
+    </visual>
+    
+    <visual>
+      <origin rpy="0 0 0" xyz="0.05 0 0"/>
+      <geometry>
+          <cylinder length="0.06" radius="0.04" />
+      </geometry>
+      <material name="white"/>
+      
+    </visual>
+    
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+    
+
+  </link>
+  
+  <joint name="camera_optical_joint" type="fixed">
+      <parent link="my_camera"/>
+      <child link="camera_link_optical"/>
+      <origin xyz= "0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+  </joint>
+  
+  <link name="my_camera_optical"></link>
+      
+  
+  <gazebo reference="my_camera">
+    <material>Gazebo/Blue/</material>
+    
+  </gazebo>
+    
+    
+  
+</robot>
