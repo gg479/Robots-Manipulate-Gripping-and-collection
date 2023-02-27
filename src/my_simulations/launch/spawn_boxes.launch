@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <arg name="x" default="3"/>
+    <arg name="y" default="3"/>
+    <arg name="z" default="3"/>
+    
+    <node name="spawn_1_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find my_simulations)/models/Boxes_blue.urdf -urdf -x $(arg x) -y $(arg y) -z $(arg z)  -model box1" />
+
+    
+    <node name="spawn_2_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find my_simulations)/models/Boxes_red.urdf -urdf -x 5 -y 5 -z 5  -model box2" />
+
+    <node name="spawn_3_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find my_simulations)/models/Boxes_green.urdf -urdf -x 6 -y 6 -z 6  -model box3" />
+    
+    <node name="spawn_4_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find my_simulations)/models/Boxes_yellow.urdf -urdf -x 8 -y 8 -z 8  -model box4" />
+    
+    <node name="spawn_5_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find my_simulations)/models/Boxes_black.urdf -urdf -x 4 -y 4 -z 4  -model box5" />
+    
+</launch>
+
+ 
