@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+
+import rospy
+from geometry_msgs.msg import Twist
+from std_msgs.msg import String
+
+
+FEEDBACK = "LOAD_PAYLOAD"
+
+def move_sequence():
+    # Move forward
+    vel_msg.linear.x = 0.2  # Set the linear velocity to 0.2 m/s
+    distance = 3.0  # Set the distance to travel in meters
+    # Calculate the time required to move
+    time_to_move = distance / vel_msg.linear.x
+    current_time = rospy.Time.now().to_sec()  # Get the current time
+    while (rospy.Time.now().to_sec() - current_time) < time_to_move:
+        velocity_publisher.publish(vel_msg)  # Publish the velocity message
+    vel_msg.linear.x = 0.0  # Stop the robot after reaching the desired distance
+    velocity_publisher.publish(vel_msg)
+
+    # Turn 180 degrees
+    vel_msg.angular.z = 1.0  # Set the angular velocity to 1.0 rad/s
+    angle_to_rotate = 3.14159  # Set the angle to rotate in radians
+    # Calculate the time required to rotate
+    time_to_rotate = angle_to_rotate / vel_msg.angular.z
+    current_time = rospy.Time.now().to_sec()  # Get the current time
+    while (rospy.Time.now().to_sec() - current_time) < time_to_rotate:
+        velocity_publisher.publish(vel_msg)  # Publish the velocity message
+    vel_msg.angular.z = 0.0  # Stop the robot after rotating the desired angle
+    velocity_publisher.publish(vel_msg)
+
+
+def move_to_pickup():
+    move_sequence()
+    feedback_pub.publish(FEEDBACK)
+
+
+def move_to_dropoff():
+    move_sequence()
+    # feedback_pub.publish(FEEDBACK)
+
+
+def handler(data):
+    print("Handler: ", data.data)
+    if data.data == "MOVE_TO_PICKUP_STATION":
+        move_to_pickup()
+    elif data.data == "MOVE_TO_DROPOFF_STATION":
+        move_to_dropoff()
+
+
+rospy.init_node('moves_turtlebot3')
+feedback_pub = rospy.Publisher("feedback/turtle", String, queue_size=10)
+action_sub = rospy.Subscriber("action/turtle", String, handler)
+
+velocity_publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+vel_msg = Twist()
+move_to_pickup()
+
+print("Started Turtlebot")
+rospy.spin()
