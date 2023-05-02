@@ -1,0 +1,12 @@
+#import library
+import RG_gripper
+
+#create object for the gripper
+RG6 = RG_gripper.RG_Message_Generator("RG6")
+
+#the .message method generates a urscript snippet, publishing it to 'script_command' will
+#run that on the robot. Takes two arguments - distance between fingers, force to close with.
+
+#example use:
+print RG6.message(110, 25) #just generate the snippet or:
+ur_script.publish(RG6.message(110, 25)) #generate and send to robot
