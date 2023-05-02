@@ -1,0 +1,51 @@
+Steps for launc and run packages and nodes 
+
+first step is to setup URSIM:	
+
+
+Step 1: Setup URSIM
+
+1: Open URSIM with admin privileges
+	cd ~/ursim-3.15.4.106291
+	sudo ./start-ursim.sh UR10
+
+2: Wait for it to finish opening, and click through all the error messages, then close it.
+
+3: reopen without admin privs
+	./start-ursim.sh UR10
+
+------------------------------------------------------------------------------------------
+
+Second step is launch ur_robot_drivers:
+
+
+Step 2: UR-Ros drivers
+
+In a new terminal (control + shift + T)
+ use provided launch file
+	This launch file needs to be edited, but once edited, you can use it easily.
+	To Edit: 
+		gedit ~/catkin_ws/src/robot_control_simulation/launch/ur_robot_drivers.launch
+			change the "robot_ip" parameter to match the URSIM's IP
+	To launch:
+		roslaunch robot_control_simulation ur_robot_drivers.launch
+
+
+------------------------------------------------------------------------------------------
+
+After make sure that ursim is run in new terminal
+
+roslaunch turtlebot3_gazebo turtlebot3_empty_world.launch
+
+
+------------------------------------------------------------------------------------------	
+
+final step in another terminal launch the file:
+
+roslaunch my_simulations server_robots.launch 
+
+this is the launch file to launch the server to run the three nodes one is controller, one is turtlebot move, and one is for ur10_move.
+
+
+
+
