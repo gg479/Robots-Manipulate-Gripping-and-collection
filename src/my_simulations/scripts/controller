@@ -1,0 +1,51 @@
+#!/usr/bin/env python3
+
+import rospy
+from std_msgs.msg import String
+
+# send message to the ur10 robot
+UR10_PUB = "action/ur10"
+
+# recieves message from the ur10 robot
+UR10_SUB = "feedback/ur10"
+
+# send message to the turtle bot
+TURTLE_PUB = "action/turtle"
+
+# receives message from turtle bo
+TURTLE_SUB = "feedback/turtle"
+
+
+def turtle_handler(data):
+    print("Controller Turtle:", data.data)
+
+    if data.data == 'AWAITING_PAYLOAD':
+        ur10_pub.publish('LOAD_TURTLE')
+    else:
+        print('Controller Turtle', '-', 'invalid command', data.data)
+
+
+def ur10_handler(data):
+    print("UR10:", data.data)
+
+    if data.data == 'LOADING_COMPLETE':
+        turtle_pub.publish('MOVE_TO_DROPOFF_STATION')
+    else:
+        print('Controller UR10', '-', 'invalid command', data.data)
+   
+
+
+turtle_pub = rospy.Publisher(TURTLE_PUB, String, queue_size=10)
+ur10_pub = rospy.Publisher(UR10_PUB, String, queue_size=10)
+
+turtle_sub = rospy.Subscriber(TURTLE_SUB, String, turtle_handler)
+ur10_sub = rospy.Subscriber(UR10_SUB, String, ur10_handler)
+
+def start():
+    rospy.init_node("controller")
+    print("Controller Started")
+    rospy.spin()
+
+
+if __name__ == "__main__":
+    start()
