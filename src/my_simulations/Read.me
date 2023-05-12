@@ -59,3 +59,20 @@ run it separate
 		rosrun my_simulations turtlebot_move
 		
 		rosrun my_simulations grippin_ur10s
+
+------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+
+Please if you get error about the RG_gripper when you launch the server_robots.launch file 
+
+remove from note grippin_ur10s code in script:
+
+import RG_gripper
+from RG_gripper import RG_Message_Generator
+
+and ever you see: 
+
+RG6 = RG_gripper.RG_Message_Generator("RG6")
+	ur_script.publish(RG6.message(120, 74)) #generate and send to robot
+	print("gripper open for the correct size") # I open the gripper in specific size because the real robot it change automatically the gripping 
+	time.sleep(3)
